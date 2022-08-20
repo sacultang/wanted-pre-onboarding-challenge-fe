@@ -1,26 +1,14 @@
 import { baseUrl } from "./baseUrl";
 import { UserAuthType } from "../types/AuthType";
 import { AxiosError } from "axios";
-export const postLogin = async () => {
-  const res = await baseUrl({
-    url: "/users/login",
-    method: "post",
-    data: JSON.stringify({
-      email: "email",
-      password: "propspassword",
-    }),
-  });
-  console.log(res);
-};
 
-export const postJoin = async (data: UserAuthType) => {
+export const postRegister = async (url: string, data: UserAuthType) => {
   try {
     const res = await baseUrl({
-      url: "/users/create",
+      url,
       method: "POST",
       data,
     });
-
     return res.data;
   } catch (error) {
     const err = error as AxiosError;

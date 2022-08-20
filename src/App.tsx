@@ -2,7 +2,7 @@ import React from "react";
 import Home from "./pages/home/Home";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./pages/common/Layout";
-import AuthPage from "./pages/auth/AuthPage";
+import AuthPage from "./pages/register/AuthPage";
 function App() {
   return (
     <Routes>
