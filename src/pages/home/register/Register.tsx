@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import RegisterHooks from "./hooks/RegisterHooks";
+import RegisterHooks from "../../../hooks/RegisterHooks";
 
 interface IProps {
   changeInputValue: number;
@@ -18,9 +18,6 @@ const Register = ({ changeInputValue }: IProps) => {
     setBtnDisable
   );
 
-  useEffect(() => {
-    console.log("btn", btnDisable);
-  }, [btnDisable]);
   return (
     <>
       <UserForm onSubmit={handleRegister}>
@@ -91,10 +88,10 @@ const ErrorText = styled.div`
 
 const StyledButton = styled.button`
   border: none;
-  padding: 5px;
-  margin: 10px 0;
+  padding: 10px 0;
+  margin: 40px 0 20px 0;
   border-radius: 4px;
-  color: #fff;
+  color: #464646;
   box-shadow: rgba(0, 0, 0, 0.12);
   background-color: #6a68b4;
   cursor: pointer;
@@ -102,6 +99,7 @@ const StyledButton = styled.button`
   &:hover,
   &:focus {
     background-color: #605db0;
+    color: #ffffff;
   }
   &:disabled {
     background-color: #b4b4be;

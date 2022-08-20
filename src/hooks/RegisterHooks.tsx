@@ -5,23 +5,35 @@ import {
   useCallback,
   useEffect,
 } from "react";
-import { postRegister } from "../../../api/authApi";
+import { postRegister } from "../api/authApi";
+import { useNavigate } from "react-router-dom";
 const EMAIL_REGEX = /^[0-9a-zA-Z]*@([0-9a-zA-Z])*\./;
 const RegisterHooks = (
   url: string,
   setBtnDisable: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
   });
   const [idMsg, setIdMsg] = useState(true);
   const [pwMsg, setPwMsg] = useState(true);
-  const [resMsg, setResMsg] = useState("");
 
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
-    const res = await postRegister(url, userInfo);
+    try {
+      const res = await postRegister(url, userInfo);
+      console.log(res);
+      if (res?.status === 200) {
+        navigate("/todo", { replace: true });
+      } else if (res?.status === 400) {
+        alert(res?.data.details);
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
   const handleUserInfo = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;

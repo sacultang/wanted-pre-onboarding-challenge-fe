@@ -9,11 +9,12 @@ export const postRegister = async (url: string, data: UserAuthType) => {
       method: "POST",
       data,
     });
-    return res.data;
+
+    return res;
   } catch (error) {
     const err = error as AxiosError;
     if (err.response) {
-      return err.response?.data;
+      return err.response;
     }
   }
 };
