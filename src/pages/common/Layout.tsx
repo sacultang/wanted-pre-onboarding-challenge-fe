@@ -16,8 +16,6 @@ const Layout = () => {
 export default Layout;
 
 const Container = styled.main`
-  max-width: 800px;
-  min-width: 400px;
-  margin: 0 auto;
-  background-color: aliceblue;
+  min-height: calc(100vh - 100px);
+  display: flex;
 `;

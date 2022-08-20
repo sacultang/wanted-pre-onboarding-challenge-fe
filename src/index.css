@@ -16,3 +16,13 @@ code {
   padding: 0;
   box-sizing: border-box;
 }
+li,
+ul,
+ol {
+  list-style: none;
+}
+.inner-container {
+  max-width: 800px;
+  min-width: 400px;
+  margin: 0 auto;
+}

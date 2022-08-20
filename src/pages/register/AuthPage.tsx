@@ -50,26 +50,31 @@ export default AuthPage;
 
 const Container = styled.div`
   width: 600px;
-  margin: 0 auto;
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 40px;
+  background-color: aliceblue;
+  height: 500px;
 `;
 
 const ChangeInputForm = styled.form`
-  line-height: 100px;
+  padding: 40px 0;
 `;
 
 const ChangeLabel = styled.label`
+  display: inline-block;
   padding: 10px 20px;
   border-radius: 10px;
   background-color: #aeaeae;
   color: #fff;
   margin: 0 4px;
+  cursor: pointer;
   &.active {
     color: #fff;
-    background-color: #164771;
+    background-color: #6a68b4;
   }
 `;
 

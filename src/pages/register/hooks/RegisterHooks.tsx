@@ -7,14 +7,18 @@ import {
 } from "react";
 import { postRegister } from "../../../api/authApi";
 const EMAIL_REGEX = /^[0-9a-zA-Z]*@([0-9a-zA-Z])*\./;
-const RegisterHooks = (url: string) => {
+const RegisterHooks = (
+  url: string,
+  setBtnDisable: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
   });
-  const [idMsg, setIdMsg] = useState("");
-  const [pwMsg, setPwMsg] = useState("");
+  const [idMsg, setIdMsg] = useState(true);
+  const [pwMsg, setPwMsg] = useState(true);
   const [resMsg, setResMsg] = useState("");
+
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     const res = await postRegister(url, userInfo);
@@ -25,18 +29,24 @@ const RegisterHooks = (url: string) => {
   }, []);
 
   useEffect(() => {
-    if (userInfo.email.length && !EMAIL_REGEX.test(userInfo.email)) {
-      setIdMsg("이메일 형식으로 작성해 주세요.");
+    if (!EMAIL_REGEX.test(userInfo.email)) {
+      setIdMsg(true);
     } else {
-      setIdMsg("");
+      setIdMsg(false);
     }
-    if (userInfo.password && userInfo.password.length < 8) {
-      setPwMsg("8자리 이상 작성해 주세요.");
+    if (userInfo.password.length < 8) {
+      setPwMsg(true);
     } else {
-      setPwMsg("");
+      setPwMsg(false);
     }
   }, [userInfo.email, userInfo.password]);
-
+  useEffect(() => {
+    if (!idMsg && !pwMsg) {
+      setBtnDisable(false);
+    } else {
+      setBtnDisable(true);
+    }
+  }, [idMsg, pwMsg, setBtnDisable]);
   return { handleRegister, handleUserInfo, idMsg, pwMsg };
 };
 
