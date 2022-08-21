@@ -7,6 +7,7 @@ export const TextField = styled.input`
   height: 40px;
   border: 1px solid #ddd;
   padding-left: 10px;
+  flex: 1;
   &::placeholder {
     color: #b6b6b6;
   }

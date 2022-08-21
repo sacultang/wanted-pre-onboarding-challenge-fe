@@ -1,29 +1,38 @@
 import React, { ChangeEvent, useState } from "react";
-import { TodoItemType } from "../../types/TodoTypes";
+import { TextField } from "../../style/common";
 import { HiPencilAlt } from "react-icons/hi";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdDone, MdOutlineCancel } from "react-icons/md";
 import styled from "styled-components";
+
+import { updateTodo } from "../../api/todoApi";
 interface IProps {
   todoItem: string;
   todoId: number;
+  isCompleted: boolean;
+  setResult: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
-const TodoItem = ({ todoItem, todoId }: IProps) => {
-  const [updateTodo, setUpdateTodo] = useState(false);
-
-  const handleUpdateTodo = (id: number) => {
-    console.log(id);
-    setUpdateTodo(!updateTodo);
+const TodoItem = ({ todoItem, todoId, isCompleted, setResult }: IProps) => {
+  const [writeMode, setWriteMode] = useState(false);
+  const [newTodo, setNewTodo] = useState(todoItem);
+  const handleWriteMode = () => {
+    setWriteMode(true);
   };
 
-  const handleChangeTodo = (e: ChangeEvent) => {};
-
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewTodo(e.target.value);
+  };
+  const handleUpdateTodo = async () => {
+    const res = await updateTodo(todoId, newTodo, isCompleted);
+    setResult(res);
+    setWriteMode(false);
+  };
   return (
     <>
-      {!updateTodo ? (
+      {!writeMode ? (
         <TodoLi>
           <TextGroup>{todoItem}</TextGroup>
           <ButtonGroup>
-            <TodoButton onClick={() => handleUpdateTodo(todoId)}>
+            <TodoButton onClick={handleWriteMode}>
               <HiPencilAlt />
             </TodoButton>
             <TodoButton>
@@ -33,13 +42,13 @@ const TodoItem = ({ todoItem, todoId }: IProps) => {
         </TodoLi>
       ) : (
         <TodoLi>
-          <input type="text" value={todoItem} onChange={handleChangeTodo} />
+          <TextField type="text" value={newTodo} onChange={handleChange} />
           <ButtonGroup>
-            <TodoButton onClick={() => handleUpdateTodo(todoId)}>
-              <HiPencilAlt />
+            <TodoButton onClick={handleUpdateTodo}>
+              <MdDone />
             </TodoButton>
             <TodoButton>
-              <MdDeleteOutline />
+              <MdOutlineCancel />
             </TodoButton>
           </ButtonGroup>
         </TodoLi>

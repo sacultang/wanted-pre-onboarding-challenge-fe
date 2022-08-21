@@ -1,15 +1,12 @@
 import { baseUrl } from "./baseUrl";
 
-export const createTodo = async (todo: string, accessToken: string) => {
+export const createTodo = async (todo: string) => {
   try {
     const res = await baseUrl({
       url: "/todos",
       method: "POST",
       data: {
         todo,
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
       },
     });
     console.log(res);
@@ -21,14 +18,11 @@ export const createTodo = async (todo: string, accessToken: string) => {
   }
 };
 
-export const getTodos = async (accessToken: string) => {
+export const getTodos = async () => {
   try {
     const res = await baseUrl({
       url: "/todos",
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     });
     if (res?.status === 200) {
       return res?.data;
@@ -38,16 +32,23 @@ export const getTodos = async (accessToken: string) => {
   }
 };
 
-export const updateTodo = async (id: string) => {
+export const updateTodo = async (
+  id: number,
+  newTodo: string,
+  isCompleted: boolean
+) => {
   try {
     const res = await baseUrl({
       url: `/todos/${id}`,
       method: "PUT",
-      headers: {
-        Authorization: `Bearer`,
-        "Content-Type": "application/json",
+      data: {
+        todo: newTodo,
+        isCompleted,
       },
     });
+    if (res?.status === 200) {
+      return res?.data;
+    }
   } catch (e) {
     console.log(e);
   }
@@ -57,9 +58,6 @@ export const deleteTodo = async (id: string) => {
     const res = await baseUrl({
       url: `/todos/${id}`,
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer`,
-      },
     });
   } catch (e) {
     console.log(e);
