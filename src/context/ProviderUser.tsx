@@ -1,6 +1,8 @@
 import React, { createContext, ReactNode, useState } from "react";
-import { ContextType } from "../types/AuthType";
-export const UserContext = createContext<ContextType | undefined>(undefined);
+import { UserContextType } from "../types/AuthType";
+export const UserContext = createContext<UserContextType | undefined>(
+  undefined
+);
 
 const ProviderUser = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState(

@@ -1,20 +1,21 @@
 import { useState } from "react";
 import styled from "styled-components";
 import RegisterHooks from "../../../hooks/RegisterHooks";
-
+import { StyledButton, TextField } from "../../../style/common";
 interface IProps {
   changeInputValue: number;
 }
 
 const registerUrl = {
-  0: "/users/create",
-  1: "/users/login",
+  in: "/auth/signin",
+  join: "/auth/signup",
 };
 
 const Register = ({ changeInputValue }: IProps) => {
   const [btnDisable, setBtnDisable] = useState(true);
+
   const { handleRegister, handleUserInfo, idMsg, pwMsg } = RegisterHooks(
-    changeInputValue ? registerUrl[0] : registerUrl[1],
+    changeInputValue ? registerUrl.join : registerUrl.in,
     setBtnDisable
   );
 
@@ -67,15 +68,7 @@ const InputLabel = styled.label`
   display: flex;
   justify-content: space-between;
 `;
-const TextField = styled.input`
-  border-radius: 4px;
-  height: 40px;
-  border: 1px solid #ddd;
-  padding-left: 10px;
-  &::placeholder {
-    color: #b6b6b6;
-  }
-`;
+
 const ErrorText = styled.div`
   font-size: 0.8rem;
 
@@ -83,26 +76,5 @@ const ErrorText = styled.div`
     color: #ff4d00;
 
     display: block;
-  }
-`;
-
-const StyledButton = styled.button`
-  border: none;
-  padding: 10px 0;
-  margin: 40px 0 20px 0;
-  border-radius: 4px;
-  color: #464646;
-  box-shadow: rgba(0, 0, 0, 0.12);
-  background-color: #6a68b4;
-  cursor: pointer;
-  &:active,
-  &:hover,
-  &:focus {
-    background-color: #605db0;
-    color: #ffffff;
-  }
-  &:disabled {
-    background-color: #b4b4be;
-    cursor: default;
   }
 `;

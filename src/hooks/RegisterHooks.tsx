@@ -26,15 +26,21 @@ const RegisterHooks = (
     e.preventDefault();
     try {
       const res = await postRegister(url, userInfo);
-      console.log(res);
+
       if (res?.status === 200) {
         localStorage.setItem(
           "user",
-          JSON.stringify({ id: userInfo.email, token: res?.data.token })
+          JSON.stringify({
+            id: userInfo.email,
+            accessToken: res?.data.access_token,
+          })
         );
         navigate("/todo", { replace: true });
+      } else if (res?.status === 404) {
+        alert(res?.data.message);
+        return;
       } else if (res?.status === 400) {
-        alert(res?.data.details);
+        alert(res?.data.message);
         return;
       }
     } catch (e) {

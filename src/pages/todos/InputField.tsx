@@ -1,21 +1,32 @@
-import React, { ChangeEvent, FormEvent, useState, useContext } from "react";
+import React, { ChangeEvent, FormEvent, useState, useCallback } from "react";
+import styled from "styled-components";
+import { StyledButton, TextField } from "../../style/common";
 import { createTodo } from "../../api/todoApi";
-import { UserContext } from "../../context/UserContext";
-const InputField = () => {
+
+interface IProps {
+  accessToken: string | undefined;
+  setResult: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+const InputField = ({ accessToken, setResult }: IProps) => {
   const [todo, setTodo] = useState("");
-  const user = useContext(UserContext);
-  const accessToken = user?.user.token;
-  const handleAddTodo = (e: ChangeEvent<HTMLInputElement>) => {
+
+  const handleAddTodo = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value);
-  };
-  const submitTodo = (e: FormEvent) => {
+  }, []);
+  const submitTodo = async (e: FormEvent) => {
     e.preventDefault();
-    createTodo(todo, accessToken as string);
+
+    const res = await createTodo(todo, accessToken!);
+    setResult(res);
   };
   return (
     <form onSubmit={submitTodo}>
-      <input type="text" onChange={handleAddTodo} />
-      <button>추가</button>
+      <TextField
+        type="text"
+        onChange={handleAddTodo}
+        placeholder="할 일 작성"
+      />
+      <StyledButton>추가</StyledButton>
     </form>
   );
 };
