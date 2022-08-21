@@ -53,12 +53,16 @@ export const updateTodo = async (
     console.log(e);
   }
 };
-export const deleteTodo = async (id: string) => {
+export const deleteTodo = async (id: number) => {
   try {
     const res = await baseUrl({
       url: `/todos/${id}`,
       method: "DELETE",
     });
+    console.log(res);
+    if (res?.status === 204) {
+      return res;
+    }
   } catch (e) {
     console.log(e);
   }

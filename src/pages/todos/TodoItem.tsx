@@ -3,19 +3,22 @@ import { TextField } from "../../style/common";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteOutline, MdDone, MdOutlineCancel } from "react-icons/md";
 import styled from "styled-components";
-
-import { updateTodo } from "../../api/todoApi";
+import { AxiosResponse } from "axios";
+import { deleteTodo, updateTodo } from "../../api/todoApi";
 interface IProps {
   todoItem: string;
   todoId: number;
   isCompleted: boolean;
-  setResult: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setResult: React.Dispatch<
+    React.SetStateAction<AxiosResponse<any, any> | undefined>
+  >;
 }
 const TodoItem = ({ todoItem, todoId, isCompleted, setResult }: IProps) => {
   const [writeMode, setWriteMode] = useState(false);
   const [newTodo, setNewTodo] = useState(todoItem);
   const handleWriteMode = () => {
-    setWriteMode(true);
+    setWriteMode((prev) => !prev);
+    setNewTodo(todoItem);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +28,11 @@ const TodoItem = ({ todoItem, todoId, isCompleted, setResult }: IProps) => {
     const res = await updateTodo(todoId, newTodo, isCompleted);
     setResult(res);
     setWriteMode(false);
+  };
+  const handleDeleteTodo = async () => {
+    const res = await deleteTodo(todoId);
+    console.log(res);
+    setResult(res);
   };
   return (
     <>
@@ -36,7 +44,7 @@ const TodoItem = ({ todoItem, todoId, isCompleted, setResult }: IProps) => {
               <HiPencilAlt />
             </TodoButton>
             <TodoButton>
-              <MdDeleteOutline />
+              <MdDeleteOutline onClick={handleDeleteTodo} />
             </TodoButton>
           </ButtonGroup>
         </TodoLi>
@@ -48,7 +56,7 @@ const TodoItem = ({ todoItem, todoId, isCompleted, setResult }: IProps) => {
               <MdDone />
             </TodoButton>
             <TodoButton>
-              <MdOutlineCancel />
+              <MdOutlineCancel onClick={handleWriteMode} />
             </TodoButton>
           </ButtonGroup>
         </TodoLi>

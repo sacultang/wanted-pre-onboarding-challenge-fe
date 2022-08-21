@@ -1,16 +1,27 @@
-import React, { ChangeEvent, FormEvent, useState, useCallback } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+} from "react";
+import { AxiosResponse } from "axios";
 import { StyledButton, TextField } from "../../style/common";
 import { createTodo } from "../../api/todoApi";
 
 interface IProps {
-  setResult: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setResult: React.Dispatch<
+    React.SetStateAction<AxiosResponse<any, any> | undefined>
+  >;
 }
 const InputField = ({ setResult }: IProps) => {
   const [todo, setTodo] = useState("");
-
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleAddTodo = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value);
   }, []);
+
   const submitTodo = async (e: FormEvent) => {
     e.preventDefault();
     if (todo === "") {
@@ -19,10 +30,20 @@ const InputField = ({ setResult }: IProps) => {
     }
     const res = await createTodo(todo);
     setResult(res);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.focus();
+    }
   };
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, []);
+
   return (
     <form onSubmit={submitTodo}>
       <TextField
+        ref={inputRef}
         type="text"
         onChange={handleAddTodo}
         placeholder="할 일 작성"

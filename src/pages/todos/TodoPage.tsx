@@ -5,9 +5,9 @@ import InputField from "./InputField";
 import TodoItem from "./TodoItem";
 import { getTodos } from "../../api/todoApi";
 import { TodoItemType } from "../../types/TodoTypes";
-
+import { AxiosResponse } from "axios";
 const TodoPage = () => {
-  const [result, setResult] = useState<string | undefined>("");
+  const [result, setResult] = useState<AxiosResponse>();
   const [todoList, setTodoList] = useState<TodoItemType[]>([]);
 
   const fetch = useCallback(async () => {
