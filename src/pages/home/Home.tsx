@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useState } from "react";
 
 import Register from "./register/Register";
 import styled from "styled-components";
-import Container from "../../components/common/Container";
+import Container from "../../components/Container";
 
 const Home = () => {
   const [changeInputValue, setChangeInputValue] = useState(0);

@@ -7,7 +7,9 @@ import {
 } from "react";
 import { postRegister } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
+
 const EMAIL_REGEX = /^[0-9a-zA-Z]*@([0-9a-zA-Z])*\./;
+
 const RegisterHooks = (
   url: string,
   setBtnDisable: React.Dispatch<React.SetStateAction<boolean>>
@@ -26,6 +28,10 @@ const RegisterHooks = (
       const res = await postRegister(url, userInfo);
       console.log(res);
       if (res?.status === 200) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ id: userInfo.email, token: res?.data.token })
+        );
         navigate("/todo", { replace: true });
       } else if (res?.status === 400) {
         alert(res?.data.details);

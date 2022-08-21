@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Container from "../../components/common/Container";
+import Container from "../../components/Container";
+import InputField from "./InputField";
+import TodoItem from "./TodoItem";
+import { createTodo } from "../../api/todoApi";
 const TodoPage = () => {
   return (
     <Container>
-      <div></div>
+      <InputField />
+      <TodoItem />
     </Container>
   );
 };

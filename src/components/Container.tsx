@@ -14,7 +14,6 @@ const ContainerStyle = styled.div`
   width: 600px;
   margin: auto;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   padding: 40px;
