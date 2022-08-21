@@ -18,6 +18,5 @@ const ContainerStyle = styled.div`
   flex-direction: column;
   padding: 40px;
   background-color: aliceblue;
-  height: 500px;
   border-radius: 10px;
 `;

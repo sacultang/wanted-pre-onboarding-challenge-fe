@@ -1,5 +1,7 @@
 import styled from "styled-components";
-
+interface Props {
+  todo?: string;
+}
 export const TextField = styled.input`
   border-radius: 4px;
   height: 40px;
@@ -9,7 +11,8 @@ export const TextField = styled.input`
     color: #b6b6b6;
   }
 `;
-export const StyledButton = styled.button`
+export const StyledButton = styled.button<Props>`
+  width: ${(p) => (p.todo ? "40px" : "")};
   border: none;
   padding: 10px 0;
   margin: 40px 0 20px 0;

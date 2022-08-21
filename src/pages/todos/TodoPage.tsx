@@ -22,9 +22,22 @@ const TodoPage = () => {
   return (
     <Container>
       <InputField accessToken={accessToken} setResult={setResult} />
-      <TodoItem accessToken={accessToken} todoList={todoList} />
+      <TodoUl>
+        {todoList.map((item: TodoItemType) => (
+          <TodoItem todoItem={item.todo} key={item.id} todoId={item.id} />
+        ))}
+      </TodoUl>
     </Container>
   );
 };
 
 export default TodoPage;
+const TodoUl = styled.ul`
+  min-width: 400px;
+  width: 500px;
+  height: 500px;
+  background-color: #fff;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+`;

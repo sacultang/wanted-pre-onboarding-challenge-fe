@@ -15,7 +15,6 @@ const InputField = ({ accessToken, setResult }: IProps) => {
   }, []);
   const submitTodo = async (e: FormEvent) => {
     e.preventDefault();
-
     const res = await createTodo(todo, accessToken!);
     setResult(res);
   };
@@ -26,7 +25,7 @@ const InputField = ({ accessToken, setResult }: IProps) => {
         onChange={handleAddTodo}
         placeholder="할 일 작성"
       />
-      <StyledButton>추가</StyledButton>
+      <StyledButton todo="todo">추가</StyledButton>
     </form>
   );
 };
