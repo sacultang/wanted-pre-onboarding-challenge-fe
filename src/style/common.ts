@@ -33,3 +33,12 @@ export const StyledButton = styled.button<Props>`
     cursor: default;
   }
 `;
+
+export const TodoLi = styled.li`
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+  align-items: center;
+  padding: 30px 20px;
+  border-bottom: 1px solid #ddd;
+`;

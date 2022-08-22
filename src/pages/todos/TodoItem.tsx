@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState, useCallback } from "react";
-import { TextField } from "../../style/common";
+import React, { ChangeEvent, useState, useCallback, useEffect } from "react";
+import { TextField, TodoLi } from "../../style/common";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteOutline, MdDone, MdOutlineCancel } from "react-icons/md";
 import styled from "styled-components";
@@ -23,6 +23,16 @@ const TodoItem = ({
 }: IProps) => {
   const [writeMode, setWriteMode] = useState(false);
   const [newTodo, setNewTodo] = useState(todoItem);
+  const [isChecked, setIsChecked] = useState(isCompleted);
+
+  const fetch = useCallback(async () => {
+    try {
+      const res = await updateTodo(todoId, newTodo, isChecked, accessToken);
+      setResult(res);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [setResult, todoId, newTodo, isChecked, accessToken]);
 
   const handleWriteMode = useCallback(() => {
     setWriteMode((prev) => !prev);
@@ -33,22 +43,37 @@ const TodoItem = ({
     setNewTodo(e.target.value);
   }, []);
 
-  const handleUpdateTodo = useCallback(async () => {
-    const res = await updateTodo(todoId, newTodo, isCompleted, accessToken);
-    setResult(res);
+  const handleUpdateTodo = useCallback(() => {
+    fetch();
     setWriteMode(false);
-  }, [setResult, setWriteMode, todoId, newTodo, isCompleted, accessToken]);
+  }, [setWriteMode, fetch]);
 
   const handleDeleteTodo = useCallback(async () => {
-    const res = await deleteTodo(todoId, accessToken);
-    setResult(res);
+    try {
+      const res = await deleteTodo(todoId, accessToken);
+      setResult(res);
+    } catch (e) {
+      console.log(e);
+    }
   }, [setResult, todoId, accessToken]);
 
+  const handleChecked = useCallback(async () => {
+    setIsChecked((prev) => !prev);
+  }, [setIsChecked]);
+
+  useEffect(() => {
+    fetch();
+  }, [isChecked]);
   return (
     <>
       {!writeMode ? (
         <TodoLi>
-          <TextGroup>{todoItem}</TextGroup>
+          <input
+            type="checkbox"
+            checked={isCompleted}
+            onChange={handleChecked}
+          />
+          <TodoText underline={isCompleted}>{todoItem}</TodoText>
           <ButtonGroup>
             <TodoButton onClick={handleWriteMode}>
               <HiPencilAlt />
@@ -81,19 +106,15 @@ const TodoItem = ({
 };
 
 export default TodoItem;
+interface TextProps {
+  underline: boolean;
+}
 
-const TodoLi = styled.li`
-  display: flex;
-  justify-content: space-between;
-  height: 35px;
-  align-items: center;
-  padding: 30px 20px;
-  border-bottom: 1px solid #ddd;
-`;
-const TextGroup = styled.div`
+const TodoText = styled.div<TextProps>`
   padding: 0 20px;
   text-align: left;
   flex: 1;
+  text-decoration: ${(p) => (p.underline ? "line-through" : "none")};
 `;
 const ButtonGroup = styled.div`
   height: 40px;

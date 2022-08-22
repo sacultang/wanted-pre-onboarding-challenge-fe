@@ -7,6 +7,7 @@ import { getTodos } from "../../api/todoApi";
 import { TodoItemType } from "../../types/TodoTypes";
 import { AxiosResponse } from "axios";
 import { AuthContext } from "../../context/AuthProvider";
+import { TodoLi } from "../../style/common";
 const TodoPage = () => {
   const [result, setResult] = useState<AxiosResponse>();
   const [todoList, setTodoList] = useState<TodoItemType[]>([]);
@@ -22,16 +23,20 @@ const TodoPage = () => {
     <Container>
       <InputField setResult={setResult} accessToken={accessToken} />
       <TodoUl>
-        {todoList.map((item: TodoItemType) => (
-          <TodoItem
-            todoItem={item.todo}
-            key={item.id}
-            todoId={item.id}
-            isCompleted={item.isCompleted}
-            setResult={setResult}
-            accessToken={accessToken}
-          />
-        ))}
+        {todoList.length > 0 ? (
+          todoList.map((item: TodoItemType) => (
+            <TodoItem
+              todoItem={item.todo}
+              key={item.id}
+              todoId={item.id}
+              isCompleted={item.isCompleted}
+              setResult={setResult}
+              accessToken={accessToken}
+            />
+          ))
+        ) : (
+          <TodoLi>Todo List를 작성해주세요</TodoLi>
+        )}
       </TodoUl>
     </Container>
   );

@@ -45,7 +45,7 @@ const Register = ({ changeInputValue }: IProps) => {
           </ErrorText>
         </InputLabel>
         <TextField
-          type="text"
+          type="password"
           id="password"
           onChange={handleUserInfo}
           placeholder="8자리 이상 작성해주세요"

@@ -27,8 +27,7 @@ const RegisterHooks = (
     e.preventDefault();
     try {
       const res = await postRegister(url, userInfo);
-
-      if (res?.status === 200) {
+      if (res?.status === 200 || res?.status === 201) {
         setAccessToken(res?.data.access_token);
       } else if (res?.status === 404) {
         alert(res?.data.message);
