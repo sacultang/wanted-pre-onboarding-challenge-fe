@@ -2,12 +2,12 @@ export type UserAuthType = {
   email: string;
   password: string;
 };
-export interface UserContextType {
+export interface AuthContextType {
   user: UserType;
-  setUser: React.Dispatch<any>;
+  setUser: React.Dispatch<React.SetStateAction<UserType>>;
 }
 
-interface UserType {
+export interface UserType {
   id: string;
   accessToken: string;
 }

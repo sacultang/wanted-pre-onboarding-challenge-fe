@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import styled from "styled-components";
 import Container from "../../components/Container";
 import InputField from "./InputField";
@@ -6,20 +6,21 @@ import TodoItem from "./TodoItem";
 import { getTodos } from "../../api/todoApi";
 import { TodoItemType } from "../../types/TodoTypes";
 import { AxiosResponse } from "axios";
+import { AuthContext } from "../../context/AuthProvider";
 const TodoPage = () => {
   const [result, setResult] = useState<AxiosResponse>();
   const [todoList, setTodoList] = useState<TodoItemType[]>([]);
-
+  const { accessToken } = useContext(AuthContext);
   const fetch = useCallback(async () => {
-    const res = await getTodos();
+    const res = await getTodos(accessToken);
     setTodoList(res);
-  }, []);
+  }, [accessToken]);
   useEffect(() => {
     fetch();
   }, [result, fetch]);
   return (
     <Container>
-      <InputField setResult={setResult} />
+      <InputField setResult={setResult} accessToken={accessToken} />
       <TodoUl>
         {todoList.map((item: TodoItemType) => (
           <TodoItem
@@ -28,6 +29,7 @@ const TodoPage = () => {
             todoId={item.id}
             isCompleted={item.isCompleted}
             setResult={setResult}
+            accessToken={accessToken}
           />
         ))}
       </TodoUl>

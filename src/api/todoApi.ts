@@ -1,6 +1,6 @@
 import { baseUrl } from "./baseUrl";
 
-export const createTodo = async (todo: string) => {
+export const createTodo = async (todo: string, accessToken: string) => {
   try {
     const res = await baseUrl({
       url: "/todos",
@@ -8,8 +8,11 @@ export const createTodo = async (todo: string) => {
       data: {
         todo,
       },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
-    console.log(res);
+
     if (res?.status === 201) {
       return res?.data;
     }
@@ -18,11 +21,14 @@ export const createTodo = async (todo: string) => {
   }
 };
 
-export const getTodos = async () => {
+export const getTodos = async (accessToken: string) => {
   try {
     const res = await baseUrl({
       url: "/todos",
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
     if (res?.status === 200) {
       return res?.data;
@@ -35,7 +41,8 @@ export const getTodos = async () => {
 export const updateTodo = async (
   id: number,
   newTodo: string,
-  isCompleted: boolean
+  isCompleted: boolean,
+  accessToken: string
 ) => {
   try {
     const res = await baseUrl({
@@ -45,6 +52,9 @@ export const updateTodo = async (
         todo: newTodo,
         isCompleted,
       },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
     if (res?.status === 200) {
       return res?.data;
@@ -53,13 +63,16 @@ export const updateTodo = async (
     console.log(e);
   }
 };
-export const deleteTodo = async (id: number) => {
+export const deleteTodo = async (id: number, accessToken: string) => {
   try {
     const res = await baseUrl({
       url: `/todos/${id}`,
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
-    console.log(res);
+
     if (res?.status === 204) {
       return res;
     }

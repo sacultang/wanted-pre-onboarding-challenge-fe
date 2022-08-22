@@ -4,17 +4,18 @@ import {
   ChangeEvent,
   useCallback,
   useEffect,
+  useContext,
 } from "react";
+import { AuthContext } from "../context/AuthProvider";
 import { postRegister } from "../api/authApi";
-import { useNavigate } from "react-router-dom";
-
 const EMAIL_REGEX = /^[0-9a-zA-Z]*@([0-9a-zA-Z])*\./;
 
 const RegisterHooks = (
   url: string,
   setBtnDisable: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const navigate = useNavigate();
+  const { setAccessToken } = useContext(AuthContext);
+
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -28,14 +29,7 @@ const RegisterHooks = (
       const res = await postRegister(url, userInfo);
 
       if (res?.status === 200) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            id: userInfo.email,
-            accessToken: res?.data.access_token,
-          })
-        );
-        navigate("/todo", { replace: true });
+        setAccessToken(res?.data.access_token);
       } else if (res?.status === 404) {
         alert(res?.data.message);
         return;

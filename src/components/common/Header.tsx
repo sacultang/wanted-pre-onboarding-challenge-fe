@@ -1,27 +1,24 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useContext } from "react";
-import { UserContext } from "../../context/ProviderUser";
-import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
+
 import styled from "styled-components";
+import { StyledButton } from "../../style/common";
 const Header = () => {
-  const navigate = useNavigate();
-  const user = useContext(UserContext);
+  const { accessToken, setAccessToken } = useContext(AuthContext);
   const handleLogout = useCallback(() => {
-    localStorage.removeItem("user");
-    navigate("/");
-  }, [navigate]);
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+    localStorage.removeItem("accessToken");
+    setAccessToken("");
+  }, [setAccessToken]);
+
   return (
     <HeaderStyle>
       <InnerWrap className="inner-container">
-        {/* {user?.user ? (
-          <>
-            <h4>{user?.user}님 안녕하세요</h4>
-            <button onClick={handleLogout}>로그아웃</button>
-          </>
-        ) : null} */}
+        {accessToken ? (
+          <StyledButton todo="logout" onClick={handleLogout}>
+            로그아웃
+          </StyledButton>
+        ) : null}
       </InnerWrap>
     </HeaderStyle>
   );

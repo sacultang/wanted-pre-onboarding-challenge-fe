@@ -14,8 +14,9 @@ interface IProps {
   setResult: React.Dispatch<
     React.SetStateAction<AxiosResponse<any, any> | undefined>
   >;
+  accessToken: string;
 }
-const InputField = ({ setResult }: IProps) => {
+const InputField = ({ setResult, accessToken }: IProps) => {
   const [todo, setTodo] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const handleAddTodo = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,7 @@ const InputField = ({ setResult }: IProps) => {
       alert("할 일을 작성해 주세요");
       return;
     }
-    const res = await createTodo(todo);
+    const res = await createTodo(todo, accessToken);
     setResult(res);
     if (inputRef.current) {
       inputRef.current.value = "";

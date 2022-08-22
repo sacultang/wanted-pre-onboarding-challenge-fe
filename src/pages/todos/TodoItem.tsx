@@ -12,8 +12,15 @@ interface IProps {
   setResult: React.Dispatch<
     React.SetStateAction<AxiosResponse<any, any> | undefined>
   >;
+  accessToken: string;
 }
-const TodoItem = ({ todoItem, todoId, isCompleted, setResult }: IProps) => {
+const TodoItem = ({
+  todoItem,
+  todoId,
+  isCompleted,
+  setResult,
+  accessToken,
+}: IProps) => {
   const [writeMode, setWriteMode] = useState(false);
   const [newTodo, setNewTodo] = useState(todoItem);
   const handleWriteMode = () => {
@@ -25,12 +32,12 @@ const TodoItem = ({ todoItem, todoId, isCompleted, setResult }: IProps) => {
     setNewTodo(e.target.value);
   };
   const handleUpdateTodo = async () => {
-    const res = await updateTodo(todoId, newTodo, isCompleted);
+    const res = await updateTodo(todoId, newTodo, isCompleted, accessToken);
     setResult(res);
     setWriteMode(false);
   };
   const handleDeleteTodo = async () => {
-    const res = await deleteTodo(todoId);
+    const res = await deleteTodo(todoId, accessToken);
     console.log(res);
     setResult(res);
   };
@@ -50,7 +57,12 @@ const TodoItem = ({ todoItem, todoId, isCompleted, setResult }: IProps) => {
         </TodoLi>
       ) : (
         <TodoLi>
-          <TextField type="text" value={newTodo} onChange={handleChange} />
+          <TextField
+            todo="input"
+            type="text"
+            value={newTodo}
+            onChange={handleChange}
+          />
           <ButtonGroup>
             <TodoButton onClick={handleUpdateTodo}>
               <MdDone />
