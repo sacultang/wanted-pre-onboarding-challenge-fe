@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext, useEffect } from "react";
+import React, { lazy, Suspense, useContext } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthProvider";
 
@@ -9,9 +9,6 @@ const TodoPage = lazy(() => import("./pages/todos/TodoPage"));
 function App() {
   const { accessToken } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log("app", accessToken);
-  }, [accessToken]);
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>

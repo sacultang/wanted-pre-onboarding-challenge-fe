@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useCallback } from "react";
 import { TextField } from "../../style/common";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteOutline, MdDone, MdOutlineCancel } from "react-icons/md";
@@ -23,24 +23,27 @@ const TodoItem = ({
 }: IProps) => {
   const [writeMode, setWriteMode] = useState(false);
   const [newTodo, setNewTodo] = useState(todoItem);
-  const handleWriteMode = () => {
+
+  const handleWriteMode = useCallback(() => {
     setWriteMode((prev) => !prev);
     setNewTodo(todoItem);
-  };
+  }, [setWriteMode, setNewTodo, todoItem]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setNewTodo(e.target.value);
-  };
-  const handleUpdateTodo = async () => {
+  }, []);
+
+  const handleUpdateTodo = useCallback(async () => {
     const res = await updateTodo(todoId, newTodo, isCompleted, accessToken);
     setResult(res);
     setWriteMode(false);
-  };
-  const handleDeleteTodo = async () => {
+  }, [setResult, setWriteMode, todoId, newTodo, isCompleted, accessToken]);
+
+  const handleDeleteTodo = useCallback(async () => {
     const res = await deleteTodo(todoId, accessToken);
-    console.log(res);
     setResult(res);
-  };
+  }, [setResult, todoId, accessToken]);
+
   return (
     <>
       {!writeMode ? (

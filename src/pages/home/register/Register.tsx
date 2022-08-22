@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import RegisterHooks from "../../../hooks/RegisterHooks";
 import { StyledButton, TextField } from "../../../style/common";
@@ -13,12 +13,14 @@ const registerUrl = {
 
 const Register = ({ changeInputValue }: IProps) => {
   const [btnDisable, setBtnDisable] = useState(true);
-
+  const inputRef = useRef<HTMLInputElement>(null);
   const { handleRegister, handleUserInfo, idMsg, pwMsg } = RegisterHooks(
     changeInputValue ? registerUrl.join : registerUrl.in,
     setBtnDisable
   );
-
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
   return (
     <>
       <UserForm onSubmit={handleRegister}>
@@ -29,6 +31,7 @@ const Register = ({ changeInputValue }: IProps) => {
           </ErrorText>
         </InputLabel>
         <TextField
+          ref={inputRef}
           type="text"
           id="email"
           onChange={handleUserInfo}
