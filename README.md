@@ -35,8 +35,8 @@ $ yarn start
 - [x] 로그인 및 회원가입시 `accessToken` 로컬스토리지에 저장
 - [x] 로그인 및 회원가입시 `/todo` 경로로 리다이렉트
 
-<iframe id="video" src="https://user-images.githubusercontent.com/85508157/185874464-c0328c6b-ddfd-48d1-bf23-4a587a282d76.mp4
-"></iframe>
+<img id="video" src="https://user-images.githubusercontent.com/85508157/185874464-c0328c6b-ddfd-48d1-bf23-4a587a282d76.mp4
+">
 
 ### ::2 - Todo List
 
